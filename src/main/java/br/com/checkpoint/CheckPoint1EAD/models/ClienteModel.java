@@ -1,8 +1,14 @@
 package br.com.checkpoint.CheckPoint1EAD.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -15,11 +21,23 @@ public class ClienteModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_cliente;
 
-    @Column(nullable = false, length = 100)
+    @Size(max = 100)
     private String nome;
 
-    @Column(nullable = false, length = 100)
+    @Size(max = 100)
     private String email;
+
+    @Size(max = 20)
+    private String telefone;
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.FIELD})
+    public @interface Descrição {
+        String value();
+    }
+
+    @Descrição("Data de cadastro do cliente")
+    private LocalDate dataCadastro;
 
     public UUID getId_cliente() {
         return id_cliente;
@@ -53,6 +71,4 @@ public class ClienteModel implements Serializable {
         this.telefone = telefone;
     }
 
-    @Column(nullable = false, length = 15)
-    private String telefone;
 }
